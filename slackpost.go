@@ -23,15 +23,27 @@ func getEnvVar(varName string) (result string) {
 }
 
 type Slack struct {
-	Text     string `json:"text"`     //投稿内容
-	Username string `json:"username"` //投稿者名 or Bot名（存在しなくてOK）
-	Channel  string `json:"channel"`  //#部屋名
+	Text     string `json:"text"`
+	Username string `json:"username"`
+	Channel  string `json:"channel"`
 }
 
 func main() {
-	webhookUrl := getEnvVar("SLACK_WEBHOOK_URL")
-	if webhookUrl == "" {
+	slackWebhookUrl := getEnvVar("SLACK_WEBHOOK_URL")
+	if slackWebhookUrl == "" {
 		fmt.Println("SLACK_WEBHOOK_URL is not specified.")
+		os.Exit(1)
+	}
+
+	slackUserName := getEnvVar("SLACK_BOT_USERNAME")
+	if slackUserName == "" {
+		fmt.Println("SLACK_BOT_USERNAME is not specified.")
+		os.Exit(1)
+	}
+
+	slackChannelToPost := getEnvVar("SLACK_BOT_CHANNEL_TO_POST")
+	if slackChannelToPost == "" {
+		fmt.Println("SLACK_BOT_CHANNEL_TO_POST is not specified.")
 		os.Exit(1)
 	}
 
@@ -52,11 +64,11 @@ func main() {
 	params, _ := json.Marshal(
 		Slack{
 			buf,
-			"red",
-			"#alone"})
+			slackUserName,
+			slackChannelToPost})
 
 	resp, _ := http.PostForm(
-		webhookUrl,
+		slackWebhookUrl,
 		url.Values{"payload": {string(params)}},
 	)
 
