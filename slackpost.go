@@ -40,7 +40,6 @@ func main() {
 	reader := bufio.NewReaderSize(in, 4096)
 	for {
 		line, _, err := reader.ReadLine()
-		fmt.Println("line = ", line)
 		if err == io.EOF {
 			break
 		} else if err != nil {
