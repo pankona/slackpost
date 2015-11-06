@@ -10,11 +10,11 @@
 
 * 以下の環境変数を設定します。
 
-  * SLACK_WEBHOOK_URL
+  * SLACKPOST_WEBHOOK_URL
     * SlackのWebhook URL
-  * SLACK_BOT_USERNAME
+  * SLACKPOST_USERNAME
     * 誰名義でのポストにするか
-  * SLACK_BOT_CHANNELTOPOST
+  * SLACKPOST_CHANNEL_TO_POST
     * どのチャンネルにポストするか
 
   * 以下のコマンドを実行すると、hoge.txt の内容をSlackにポストします。
