@@ -22,32 +22,35 @@ func getEnvVar(varName string) (result string) {
 	return ""
 }
 
+// Slack represents ...
 type Slack struct {
 	Text     string `json:"text"`
 	Username string `json:"username"`
 	Channel  string `json:"channel"`
 }
 
-const ENVKEY_SLACKPOST_WEBHOOK_URL = "SLACKPOST_WEBHOOK_URL"
-const ENVKEY_SLACKPOST_USERNAME = "SLACKPOST_USERNAME"
-const ENVKEY_SLACKPOST_CHANNEL_TO_POST = "SLACKPOST_CHANNEL_TO_POST"
+const (
+	envSlackPostWebHookURL    = "SLACKPOST_WEBHOOK_URL"
+	envSlackPostUserName      = "SLACKPOST_USERNAME"
+	envSlackPostChannelToPost = "SLACKPOST_CHANNEL_TO_POST"
+)
 
 func main() {
-	slackpostWebhookUrl := getEnvVar(ENVKEY_SLACKPOST_WEBHOOK_URL)
-	if slackpostWebhookUrl == "" {
-		fmt.Println(ENVKEY_SLACKPOST_WEBHOOK_URL, "is not specified.")
+	slackpostWebhookURL := getEnvVar(envSlackPostWebHookURL)
+	if slackpostWebhookURL == "" {
+		fmt.Println(envSlackPostWebHookURL, "is not specified.")
 		os.Exit(1)
 	}
 
-	slackpostUserName := getEnvVar(ENVKEY_SLACKPOST_USERNAME)
+	slackpostUserName := getEnvVar(envSlackPostUserName)
 	if slackpostUserName == "" {
-		fmt.Println(ENVKEY_SLACKPOST_USERNAME, "is not specified.")
+		fmt.Println(envSlackPostUserName, "is not specified.")
 		os.Exit(1)
 	}
 
-	slackpostChannelToPost := getEnvVar(ENVKEY_SLACKPOST_CHANNEL_TO_POST)
+	slackpostChannelToPost := getEnvVar(envSlackPostChannelToPost)
 	if slackpostChannelToPost == "" {
-		fmt.Println(ENVKEY_SLACKPOST_CHANNEL_TO_POST, "is not specified.")
+		fmt.Println(envSlackPostChannelToPost, "is not specified.")
 		os.Exit(1)
 	}
 
@@ -72,7 +75,7 @@ func main() {
 			slackpostChannelToPost})
 
 	resp, _ := http.PostForm(
-		slackpostWebhookUrl,
+		slackpostWebhookURL,
 		url.Values{"payload": {string(params)}},
 	)
 
