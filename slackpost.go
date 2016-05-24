@@ -68,6 +68,11 @@ func main() {
 		buf += string(line) + "\n"
 	}
 
+	if buf == "" {
+		// buf is empty. exit.
+		os.Exit(0)
+	}
+
 	params, _ := json.Marshal(
 		Slack{
 			buf,
