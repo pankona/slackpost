@@ -24,15 +24,17 @@ func getEnvVar(varName string) (result string) {
 
 // Slack represents ...
 type Slack struct {
-	Text     string `json:"text"`
-	Username string `json:"username"`
-	Channel  string `json:"channel"`
+	Text      string `json:"text"`
+	Username  string `json:"username"`
+	Channel   string `json:"channel"`
+	IconEmoji string `json:"icon_emoji"`
 }
 
 const (
 	envSlackPostWebHookURL    = "SLACKPOST_WEBHOOK_URL"
 	envSlackPostUserName      = "SLACKPOST_USERNAME"
 	envSlackPostChannelToPost = "SLACKPOST_CHANNEL_TO_POST"
+	envSlackPostIconEmoji     = "SLACKPOST_ICON_EMOJI"
 )
 
 func main() {
@@ -53,6 +55,9 @@ func main() {
 		fmt.Println(envSlackPostChannelToPost, "is not specified.")
 		os.Exit(1)
 	}
+
+	slackpostIconEmoji := getEnvVar(envSlackPostIconEmoji)
+	// allow empty
 
 	in := os.Stdin
 	var buf string
@@ -77,7 +82,9 @@ func main() {
 		Slack{
 			buf,
 			slackpostUserName,
-			slackpostChannelToPost})
+			slackpostChannelToPost,
+			slackpostIconEmoji,
+		})
 
 	resp, _ := http.PostForm(
 		slackpostWebhookURL,
